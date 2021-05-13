@@ -4,8 +4,17 @@ const router = express.Router();
 
 
 
-const {signup} = require('../controllers/user');
+const {userById} = require('../controllers/user');
+const {requireSignin,isAuth,isAdmin} = require('../controllers/auth');
+router.get('/secret/:userId',requireSignin,isAuth,isAdmin,(req,res)=>{
+    res.json({
+        user:req.profile
+    });
+});
 
-router.post("/signup",signup);
+router.param('userId', userById);
+
+
+
 
 module.exports = router;
